@@ -23,7 +23,7 @@ function App() {
   }, []);
 
   const speakText = async () => {
-    if(text.lenght > 3000){
+    if(text.length > 3000){
       setError("Text is too long. Please limit to 3000 characters.");
       return;
     }
@@ -38,13 +38,13 @@ function App() {
 
     try{
       const audio = await window.puter.ai.txt2speech(text, {
-        engine: "standart",
+        engine: "standard",
         language: "en-US",
       });
       setCurrentAudio(audio);
       audio.play();
-      audio.addEventlistener("ended",() => setLoading(false));
-      audio.addEventlistener("error",() => setLoading(false));
+      audio.addEventListener("ended",() => setLoading(false));
+      audio.addEventListener("error",() => setLoading(false));
     }catch(err){
       setError(err.message || "Something went wrong");
       setLoading(false);
@@ -74,10 +74,10 @@ function App() {
           {aiReady ? "Ai Ready" : "Waiting for Ai..."}
         </div>
         <div className="w-full max-w-2xl bg-gradient-to-r from-gray-800/90
-        to-gray-700/90 backdroup-blur-md border border-gray-600 rounded-3xl p-6 shadow-2xl">
-          <textarea className="w-full h-40 p-4 bg-gray-700/80 border borde-gray-600 rounded-2xl
+        to-gray-700/90 backdrop-blur-md border border-gray-600 rounded-3xl p-6 shadow-2xl">
+          <textarea className="w-full h-40 p-4 bg-gray-700/80 border border-gray-600 rounded-2xl
           text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-fuchsia-400
-          transition duration-300 disabled:opacity-50 reesize-none shadow-x1
+          transition duration-300 disabled:opacity-50 resize-none shadow-xl
           focus:shadow-fuchsia-700/70" placeholder="Enter text... (max 3000 characters)"
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -95,7 +95,7 @@ function App() {
             hover:opacity-80 text-white font-semibold rounded-2xl transition
             disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={speakText}
-            disabled={!aiReady || loading || text.trim()}>
+            disabled={!aiReady || loading || !text.trim()}>
               {loading ? (
                 <div className="flex items-center justify-center gap-2">
                 <div className="animate-spin w-4 h-4 border-2 border-white/30 border-t-white
